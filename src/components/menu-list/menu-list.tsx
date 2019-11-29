@@ -10,30 +10,19 @@ import './menu-list.scss'
 class MenuList extends React.Component<any> {
 
   componentDidMount() {
-    const{RestoService, menuLoaded, menuReq, category} =  this.props
+    const{RestoService, menuLoaded, menuReq, category, menuItems} =  this.props
+    if(menuItems.length) return menuItems
     menuReq()
     RestoService.getMenuItems()
-    .then(res => {     
-      if(!category) return menuLoaded(res)
-      const currentRes = res.filter(el => {
-        return el.category === category.replace('/', '')
+      .then(res => {     
+        if(!category) return menuLoaded(res)
+        const currentRes = res.filter(el => {
+          return el.category === category.replace('/', '')
+        })
+        return menuLoaded(currentRes)
       })
-      return menuLoaded(currentRes)
-    })
-    .catch(() => menuErr())
-  }
+      .catch(() => menuErr())
 
-  componentDidUpdate() {
-    const{RestoService, menuLoaded, category} =  this.props
-    menuReq()
-    RestoService.getMenuItems()
-    .then(res => {     
-      const currentRes = res.filter(el => {
-        return el.category === category.replace('/', '')
-      })
-      return menuLoaded(currentRes)
-    })
-    .catch(() => menuErr())
   }
 
   render() {

@@ -9,9 +9,10 @@ const CartTable = ({menu, deleteFromCard}) => {
       <div className="cart__title">Ваш заказ:</div>
       <div className="cart__list">
         {
+
           menu.map(item => {
             const {title, price, url, id, number, counter} = item
-            
+            if(counter === 0) return   
             return (
               <div className="cart__item" key={id}>
                 <div>{number}</div>

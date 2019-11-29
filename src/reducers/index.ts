@@ -1,5 +1,3 @@
-import { stat } from "fs"
-
 interface IPropState {
   menu: Array<any>,
   loading: boolean,
@@ -43,29 +41,34 @@ const reducer = (state = initialState, action) => {
         return el.id === id
       })
       item.counter += 1
-
-      // return {
-      //   ...state,
-      //   total: price*counter,
-      // }
-    // case 'DELETE_FROM_CARD' :
-    //   const index = action.payload 
-    //   const itemIndex = state.items.findIndex(el => {
-    //     return el.id === index
-    //   })
-    //   return {
-    //     ...state,
-    //     total: state.total - state.items[itemIndex].price,
-    //     items: [
-    //       ...state.items.slice(0, itemIndex),
-    //       ...state.items.slice(itemIndex+1)
-    //     ]
-    //   }
+      return {
+        ...state,
+        total: state.total += item.price
+      }
+    case 'DELETE_FROM_CARD' :
+      const index = action.payload 
+      const itemIndex = state.menu.find(el => {
+        return el.id === index
+      })
+      const newState = state.menu.map(el => {
+        if(el === itemIndex) {
+          let {counter} = el
+          console.log(counter)
+          return {
+            ...el,
+            counter: counter -= 1
+          }
+        }
+      })
+      console.log(newState)
+      return {
+        ...state,
+        newState,
+        total: state.total - itemIndex.price,
+      }
     default:
       return state
   }
 }
-
-const generateKey =()=> ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16));
 
 export default reducer
