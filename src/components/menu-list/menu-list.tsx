@@ -10,19 +10,13 @@ import './menu-list.scss'
 class MenuList extends React.Component<any> {
 
   componentDidMount() {
-    const{RestoService, menuLoaded, menuReq, category, menuItems} =  this.props
-    if(menuItems.length) return menuItems
-    menuReq()
-    RestoService.getMenuItems()
-      .then(res => {     
-        if(!category) return menuLoaded(res)
-        const currentRes = res.filter(el => {
-          return el.category === category.replace('/', '')
-        })
-        return menuLoaded(currentRes)
-      })
-      .catch(() => menuErr())
-
+    const{RestoService, menuLoaded, menuReq, menuItems} =  this.props
+    if(!menuItems.length) {
+      menuReq()
+      RestoService.getMenuItems()
+        .then(res => menuLoaded(res))
+        .catch(menuErr) 
+    }
   }
 
   render() {
@@ -41,10 +35,13 @@ class MenuList extends React.Component<any> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({menu, loading}, {category}) => {
   return {
-    menuItems: state.menu,
-    loading: state.loading
+    menuItems: menu.filter(el => {
+      if(!category) return el
+      if(el.category === category) return el
+    }),
+    loading: loading
   }
 }
 

@@ -11,11 +11,10 @@ const CartTable = ({menu, deleteFromCard}) => {
         {
 
           menu.map(item => {
-            const {title, price, url, id, number, counter} = item
+            const {title, price, url, id, counter} = item
             if(counter === 0) return   
             return (
               <div className="cart__item" key={id}>
-                <div>{number}</div>
                 <img src={url} className="cart__item-img" alt={title}></img>
                 <div className="cart__item-title">{title}</div>
                 <span className='cart__item-counter'>{counter}</span>

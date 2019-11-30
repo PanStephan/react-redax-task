@@ -14,6 +14,15 @@ module.exports = {
   watchOptions: {
     ignored: /node_modules/
   }, 
+  devServer: {
+    port: 8080,
+    historyApiFallback: true,
+    proxy: {
+        '/menu': {
+          target: 'http://localhost:3000'
+        },
+    }
+  },
   mode: 'development',
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"]

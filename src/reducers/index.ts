@@ -1,23 +1,20 @@
-import { stat } from "fs"
-
 interface IPropState {
   menu: Array<any>,
-  loading: boolean,
-  total: number
+  loading: boolean
 }
 
 const initialState:IPropState = {
   menu: [],
   loading: true,
-  total: 0
 }
 
 const reducer = (state = initialState, action) => {
-  switch(action.type) {
+  const {type, payload} = action
+  switch(type) {
     case "MENU_LOADED":
       return {
         ...state,
-        menu: action.payload.map(item => {
+        menu: payload.map(item => {
           return {
             ...item,
             counter: 0
@@ -28,54 +25,27 @@ const reducer = (state = initialState, action) => {
     case 'MENU_REQUESTED' :
       return {
         ...state,
-        menu: state.menu,
         loading: true
       }
     case 'MENU_ERROR' : 
       return {
-        menu: state.menu,
         loading: false
       }
     case 'ADD_ITEM_TO_CARD' :
-      const id = action.payload
-      
-      const item = state.menu.find(el => {
-        return el.id === id
-      })
-      item.counter += 1
       return {
         ...state,
-        total: state.total += item.price
+        menu: state.menu.map(el => {
+          if(el.id === payload) return {...el, counter: el.counter += 1}
+          return {...el}
+        })
       }
     case 'DELETE_FROM_CARD' :
-      const index = action.payload 
-      const itemIndex = state.menu.find(el => {
-        return el.id === index
-      })
-      const newState = state.menu.map(el => {
-        if(el === itemIndex) {
-          let {counter, title, price, url, category, id} = el
-          return {
-            title,
-            price,
-            url,
-            category,
-            id,
-            counter: counter -= 1
-          }
-        }
-        return {
-          ...el
-        }
-      })
-      console.log(newState)
-
       return {
         ...state,
-        menu: [
-          ...newState
-        ],
-        total: state.total - itemIndex.price,
+        menu: state.menu.map(el => {
+          if(el.id === payload) return {...el, counter: el.counter -= 1}
+          return {...el}
+        })
       }
     default:
       return state
