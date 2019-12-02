@@ -12,20 +12,10 @@ const App = () => {
 				<AppHeader/>
 				<Switch>
 					<Route path='/' exact component={MainPage}/>
-					<Route path='/cart' exact component={CartPage}/>
-					<Route paht='/meat' exact render = {
-						({match, location, history}) => { 
-							return <MenuList category={location.pathname}/>
-						}	
-					}/>
-					<Route paht='/pizza' exact render = {
-						({match, location, history}) => { 
-							return <MenuList category={location.pathname}/>
-						}	
-					}/>
-					<Route paht='/salads' exact render = {
-						({match, location, history}) => { 
-							return <MenuList category={location.pathname}/>
+					<Route path='/cart' component={CartPage}/>
+					<Route path='/:id' exact render = {
+						({match}) => { 
+							return <MenuList category={match.params.id}/>
 						}	
 					}/>
 				</Switch>

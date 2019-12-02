@@ -6,7 +6,6 @@
     font-size: 36px;
     color: #fff;
     text-align: center;
-    font-weight: 300;
   }
   &__list {
     width: 60%;
@@ -22,7 +21,6 @@
     background-color: rgba(0,0,0,.7);
     box-shadow: 0 0 20px rgba(256,256,256, .1);
     &-title, &-price  {
-      width: 250px;
       text-align: center;
       color: #fff;
       font-size: 24px;
@@ -30,7 +28,6 @@
     &-img {
       height: 125px;
       width: 250px;
-      object-fit: cover;
     }
   }
   &__close {

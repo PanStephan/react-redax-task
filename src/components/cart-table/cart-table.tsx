@@ -9,12 +9,11 @@ const CartTable = ({menu, deleteFromCard}) => {
       <div className="cart__title">Ваш заказ:</div>
       <div className="cart__list">
         {
+
           menu.map(item => {
-            const {title, price, url, id, number, counter} = item
-            
+            const {title, price, url, id, counter} = item
             return (
               <div className="cart__item" key={id}>
-                <div>{number}</div>
                 <img src={url} className="cart__item-img" alt={title}></img>
                 <div className="cart__item-title">{title}</div>
                 <span className='cart__item-counter'>{counter}</span>
@@ -31,7 +30,7 @@ const CartTable = ({menu, deleteFromCard}) => {
 
 const mapStateToProps = ({menu}) => {
   return {
-    menu
+    menu: menu.filter(el => el.counter != 0)
   }
 }
 

@@ -27,9 +27,9 @@ const AppHeader = ({total}) => {
   )
 }
 
-const mapStateToProps = ({total}) => {
+const mapStateToProps = ({menu}) => {
   return {
-    total
+    total: menu.reduce((sum, {price=0, counter=0}) => sum+(price*counter), 0)
   }
 }
 
